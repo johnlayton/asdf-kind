@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+#
+# https://github.com/kubernetes-sigs/kind/releases/download/v0.5.1/kind-darwin-amd64
+#
+
+echo $(
+  curl -sSf https://github.com/kubernetes-sigs/kind/releases | awk '/kubernetes\-sigs\/kind\/releases\/download\/v.*\/kind\-darwin\-amd64/{sub(/^.*\/download\/v/,"");sub(/\/kind\-darwin\-amd64.*$/, "");print}'
+)

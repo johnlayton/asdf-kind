@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+set -e
+
+#
+# https://github.com/kubernetes-sigs/kind/releases/download/v0.5.1/kind-darwin-amd64
+#
+
+install_kind() {
+    local install_type=$1
+    local install_version=$2
+    local install_path=$3
+
+    case $(uname -s) in
+    Darwin) os="darwin" ;;
+    *) os="linux" ;;
+    esac
+
+    case $(uname -m) in
+    x86_64) arch="amd64" ;;
+    *) arch="other" ;;
+    esac
+
+    if [ "$arch" = "other" ]; then
+        echo "Unsupported architecture $(uname -m). Only x64 binaries are available."
+        exit
+    fi
+
+    download="https://github.com/kubernetes-sigs/trdsql/kind/download/v${install_version}/kind${os}_amd64"
+    filename="${install_path}/bin/kind"
+
+    if [ ! -d "${install_path}/bin" ]; then
+        mkdir -p "${install_path}/bin"
+    fi
+
+    curl -fL# -o "${filename}" "${download}"
+    chmod +x "${install_path}/bin/kind"
+}
+
+install_kind $ASDF_INSTALL_TYPE $ASDF_INSTALL_VERSION $ASDF_INSTALL_PATH
+
+asdf reshim kind "$ASDF_INSTALL_VERSION"

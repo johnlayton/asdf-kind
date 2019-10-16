@@ -1,5 +1,5 @@
 language: c
-script: asdf plugin-test kind https://github.com/johnlayton/leesroad.git 'kind -version' --asdf-tool-version 0.5.1
+script: asdf plugin-test kind https://github.com/johnlayton/leesroad.git 'kind --version' --asdf-tool-version 0.5.1
 before_script:
   - git clone https://github.com/asdf-vm/asdf.git
   - . asdf/asdf.sh

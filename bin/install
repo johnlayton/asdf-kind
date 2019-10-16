@@ -25,7 +25,7 @@ install_kind() {
         exit
     fi
 
-    download="https://github.com/kubernetes-sigs/kind/download/v${install_version}/kind-${os}-amd64"
+    download="https://github.com/kubernetes-sigs/kind/releases/download/v${install_version}/kind-${os}-amd64"
     filename="${install_path}/bin/kind"
 
     if [ ! -d "${install_path}/bin" ]; then

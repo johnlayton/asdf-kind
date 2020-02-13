@@ -1,9 +1,19 @@
 #!/usr/bin/env bash
 
-#
-# https://github.com/kubernetes-sigs/kind/releases/download/v0.5.1/kind-darwin-amd64
-#
+set -eo pipefail
 
-echo $(
-  curl -sSf https://github.com/kubernetes-sigs/kind/releases | awk '/kubernetes\-sigs\/kind\/releases\/download\/v.*\/kind\-darwin\-amd64/{sub(/^.*\/download\/v/,"");sub(/\/kind\-darwin\-amd64.*$/, "");print}'
-)
+cmd="curl --silent --location"
+releases_path="https://api.github.com/repos/kubernetes-sigs/kind/releases"
+
+if [ -n "$GITHUB_API_TOKEN" ]; then
+  cmd="$cmd --header 'Authorization: token $GITHUB_API_TOKEN'"
+fi
+
+sort_versions() {
+  sed 'h; s/[+-]/./g; s/.p\([[:digit:]]\)/.z\1/; s/$/.z/; G; s/\n/ /' |
+    LC_ALL=C sort -t. -k 1,1 -k 2,2n -k 3,3n -k 4,4n -k 5,5n | awk '{print $2}'
+}
+
+versions=$(eval "$cmd $releases_path" | grep 'tag_name' | sed -e 's/.* "//;s/",//' | sed -e 's/^v\(.*\)/\1/' | sort_versions | xargs)
+
+echo "$versions"

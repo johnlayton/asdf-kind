@@ -6,6 +6,7 @@ set -e
 #
 
 install_kind() {
+    # shellcheck disable=SC2034
     local install_type=$1
     local install_version=$2
     local install_path=$3
@@ -36,6 +37,4 @@ install_kind() {
     chmod +x "${install_path}/bin/kind"
 }
 
-install_kind $ASDF_INSTALL_TYPE $ASDF_INSTALL_VERSION $ASDF_INSTALL_PATH
-
-asdf reshim kind "$ASDF_INSTALL_VERSION"
+install_kind "$ASDF_INSTALL_TYPE" "$ASDF_INSTALL_VERSION" "$ASDF_INSTALL_PATH"

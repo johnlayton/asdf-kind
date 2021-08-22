@@ -17,7 +17,7 @@ install_kind() {
       *) fail "Unsupported platform" ;;
     esac
 
-    if [  "${install_version}" = "$(echo -e "${install_version}\n0.11.0" | sort -V -r | head -n1}" ]; then
+    if [  "${install_version}" = "$(echo -e "${install_version}\n0.11.0" | sort -V -r | head -n1)" ]; then
       case "$(uname -m)" in
         i?86) architecture="386" ;;
         x86_64) architecture="amd64" ;;

@@ -11,22 +11,24 @@ install_kind() {
     local install_version=$2
     local install_path=$3
 
-    case $(uname -s) in
-    Darwin) os="darwin" ;;
-    *) os="linux" ;;
+    case "$(uname -s)" in
+      Darwin) platform="darwin" ;;
+      Linux) platform="linux" ;;
+      *) fail "Unsupported platform" ;;
     esac
 
-    case $(uname -m) in
-    x86_64) arch="amd64" ;;
-    *) arch="other" ;;
-    esac
-
-    if [ "$arch" = "other" ]; then
-        echo "Unsupported architecture $(uname -m). Only x64 binaries are available."
-        exit
+    if [  "${install_version}" = "`echo -e "${install_version}\n0.11.0" | sort -V -r | head -n1`" ]; then
+      case "$(uname -m)" in
+        i?86) architecture="386" ;;
+        x86_64) architecture="amd64" ;;
+        arm64|aarch64|armv8l) architecture="arm64" ;;
+        *) fail "Unsupported architecture" ;;
+      esac
+    else
+      architecture="amd64"
     fi
 
-    download="https://github.com/kubernetes-sigs/kind/releases/download/v${install_version}/kind-${os}-amd64"
+    download="https://github.com/kubernetes-sigs/kind/releases/download/v${install_version}/kind-${platform}-${architecture}"
     filename="${install_path}/bin/kind"
 
     if [ ! -d "${install_path}/bin" ]; then

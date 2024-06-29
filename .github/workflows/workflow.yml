@@ -13,13 +13,13 @@ jobs:
     strategy:
       matrix:
         os: [macos-latest, ubuntu-latest]
-        ver: [0.5.1, 0.11.1]
+        ver: [0.5.1, 0.11.1, 0.23.0]
 
     runs-on: ${{ matrix.os }}
 
     steps:
       - name: asdf_plugin_test
-        uses: asdf-vm/actions/plugin-test@v1
+        uses: asdf-vm/actions/plugin-test@v3
         with:
           version: ${{ matrix.ver }}
           command: kind --version
